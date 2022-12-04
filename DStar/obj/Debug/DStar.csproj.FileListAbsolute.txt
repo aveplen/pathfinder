@@ -1,0 +1,6 @@
+C:\Users\user\Desktop\pathfinder\DStar\bin\Debug\DStar.dll
+C:\Users\user\Desktop\pathfinder\DStar\bin\Debug\DStar.pdb
+C:\Users\user\Desktop\pathfinder\DStar\obj\Debug\DStar.csproj.AssemblyReference.cache
+C:\Users\user\Desktop\pathfinder\DStar\obj\Debug\DStar.csproj.CoreCompileInputs.cache
+C:\Users\user\Desktop\pathfinder\DStar\obj\Debug\DStar.dll
+C:\Users\user\Desktop\pathfinder\DStar\obj\Debug\DStar.pdb
