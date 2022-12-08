@@ -55,19 +55,19 @@ namespace DStarTest
             var dstarMap = new DStarMap(7, 7);
             dstarMap.LoadMap(new char[][]
             {
-                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'S' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'S', 'B' },
                 new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
                 new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
                 new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'G', 'B', 'B', 'B', 'B', 'B' },
                 new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
-                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
-                new char[] { 'G', 'B', 'B', 'B', 'B', 'B', 'B' },
             });
 
             var dstar = new DStarPathfinder(dstarMap);
 
             var task = Task.Run(() => dstar.TraverseMap());
-            if (task.Wait(TimeSpan.FromSeconds(3)))
+            if (!task.Wait(TimeSpan.FromSeconds(3)))
             {
                 throw new Exception("pathfinder is stuck");
             }

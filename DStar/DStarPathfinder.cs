@@ -62,19 +62,18 @@ namespace DStar
 
                 do
                 {
-                    // start from where robot is
-                    here = DStarMap.CurrentLocation;
+                    if (DetectCycle(DStarMap.CurrentLocation))
+                    {
+                        throw new UnreachableException("cycle");
+                    }
 
-                    // get next node from current location back reference
+                    here = DStarMap.CurrentLocation;
                     next = here.BackReference;
 
-                    // is next state unknown?
                     unknownFound = next.State == "U";
-
-                    // next state known
+                    
                     if (!unknownFound)
                     {
-                        // move the robot
                         DStarMap.CurrentLocation = next;
                         CurrentPosition = DStarMap.CurrentLocation;
                     }
@@ -107,7 +106,7 @@ namespace DStar
 
                     if (minK == -1.0f)
                     {
-                        throw new Exception("unreachable");
+                        throw new UnreachableException("negative cost");
                     }
                 }
             }
@@ -339,6 +338,40 @@ namespace DStar
                 node.Tag = "OPEN";
                 OpenList.Add(node);
             }
+        }
+
+        private bool DetectCycle(DStarNode start)
+        {
+            if (start == null)
+            {
+                return false;
+            }
+
+            if (start.BackReference == null)
+            {
+                return false;
+            }
+
+            if (start.BackReference.BackReference == null)
+            {
+                return false;
+            }
+
+            DStarNode slow = start.BackReference;
+            DStarNode fast = start.BackReference.BackReference;
+
+            while (
+                slow.BackReference != null && 
+                fast.BackReference != null &&
+                fast.BackReference.BackReference != null &&
+                fast != slow
+            )
+            {
+                slow = slow.BackReference;
+                fast = fast.BackReference.BackReference;
+            }
+
+            return slow == fast;
         }
     }
 }
