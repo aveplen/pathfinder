@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using DStar;
+using System.Threading.Tasks;
 
 namespace DStarTest
 {
@@ -46,6 +47,32 @@ namespace DStarTest
             var dstar = new DStarPathfinder(dstarMap);
             List<DStarNode> res = dstar.TraverseMap();
             Assert.IsNotNull(res);
+        }
+
+        [TestMethod]
+        public async Task TestPathfinderDoesntGetStuck()
+        {
+            var dstarMap = new DStarMap(7, 7);
+            dstarMap.LoadMap(new char[][]
+            {
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'S' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'B', 'B', 'B', 'B', 'B', 'B', 'B' },
+                new char[] { 'G', 'B', 'B', 'B', 'B', 'B', 'B' },
+            });
+
+            var dstar = new DStarPathfinder(dstarMap);
+
+            var task = Task.Run(() => dstar.TraverseMap());
+            if (task.Wait(TimeSpan.FromSeconds(3)))
+            {
+                throw new Exception("pathfinder is stuck");
+            }
+
+            Assert.IsNotNull(await task);
         }
     }
 }
